@@ -37,39 +37,35 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *head = new ListNode(0);
-        ListNode *p = head;
+        ListNode *head = l1;
         int c = 0;
         while (l1 && l2) {
-            p->next = new ListNode(c + l1->val + l2->val);
+            l1->val += c + l2->val;
             c = 0;
-            p = p->next;
-            if (p->val > 9) {
-                p->val -= 10;
+            if (l1->val > 9) {
+                l1->val -= 10;
                 ++c;
             }
+            if (!l1->next || !l2->next)
+                break;
             l1 = l1->next;
             l2 = l2->next;
         }
-        if (l1 || l2) {
-            if (l1) {
-                p->next = l1;
-            } else {
-                p->next = l2;
-            }
-            while (c && p->next) {
-                p = p->next;
-                p->val += c;
-                c = 0;
-                if (p->val > 9) {
-                    p->val -= 10;
-                    ++c;
-                }
+        if (l2->next) {
+            l1->next = l2->next;
+        }
+        while (c && l1->next) {
+            l1 = l1->next;
+            l1->val += c;
+            c = 0;
+            if (l1->val > 9) {
+                l1->val -= 10;
+                ++c;
             }
         }
         if (c) {
-            p->next = new ListNode(c);
+            l1->next = new ListNode(c);
         }
-        return head->next;
+        return head;
     }
 };
