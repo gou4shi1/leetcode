@@ -37,22 +37,13 @@ class Solution {
 
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        if (!l1)
-            return l2;
-        if(!l2)
-            return l1;
+        if (!l1 && !l2)
+            return NULL;
 
         ListNode *head = new ListNode(0);
         ListNode *p = head;
-        if (l1->val < l2->val) {
-            choose(p, l1);
-        } else {
-            choose(p, l2);
-        }
 
         while (l1 || l2) {
-            p->next = new ListNode(0);
-            p = p->next;
             if (!l1) {
                 choose(p, l2);
             } else if (!l2) {
@@ -61,6 +52,10 @@ public:
                 choose(p, l1);
             } else {
                 choose(p, l2);
+            }
+            if (l1 || l2) {
+                p->next = new ListNode(0);
+                p = p->next;
             }
         }
         return head;
