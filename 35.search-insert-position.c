@@ -44,6 +44,7 @@
  * 
  * 
  */
+/*  normal solution
 int searchInsert(int* nums, int numsSize, int target) {
     if (numsSize == 0)
         return 0;
@@ -64,4 +65,26 @@ int searchInsert(int* nums, int numsSize, int target) {
     if (target > nums[numsSize - 1])
         return numsSize;
     return -1;
+}
+*/
+
+int searchInsert(int* nums, int numsSize, int target) {
+    if (numsSize == 0)
+        return 0;
+
+    if (target < nums[0])
+        return 0;
+
+    if (target > nums[numsSize - 1])
+        return numsSize;
+
+    int l = 0, h = numsSize - 1;
+    while (l < h) {
+        int m = (l + h) / 2;
+        if (nums[m] >= target)
+            h = m;
+        if (nums[m] < target)
+            l = m + 1;
+    }
+    return l;
 }
