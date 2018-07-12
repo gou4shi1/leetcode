@@ -34,28 +34,54 @@ typedef pair<int, int> PII;
 #define se second
 
 class Solution {
-public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+
+        vector<int> l;
+        l.resize(n);
+        deque<PII> mono_queue;
+        mono_queue.push_back(mp(-1, -1));
+        for (int i = 0; i < n; ++i) {
+            while (mono_queue.back().fi >= heights[i])
+                mono_queue.pop_back();
+            l[i] = mono_queue.back().se + 1;
+            mono_queue.push_back(mp(heights[i], i));
+        }
+
+        vector<int> r;
+        r.resize(n);
+        mono_queue.clear();
+        mono_queue.push_back(mp(-1, n));
+        for (int i = n - 1; i >= 0; --i) {
+            while (mono_queue.back().fi >= heights[i])
+                mono_queue.pop_back();
+            r[i] = mono_queue.back().se;
+            mono_queue.push_back(mp(heights[i], i));
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            ans = max(ans, (r[i] - l[i]) * heights[i]);
+        }
+        return ans;
+    }
+
+    public:
     int maximalRectangle(vector<vector<char>>& matrix) {
         int row_size = matrix.size();
         if (row_size == 0)
             return 0;
         int col_size = matrix[0].size();
 
-        vector<vector<int>> last;
-        last.resize(row_size + 1);
-        for (vector<int>& row: last)
-            row.resize(col_size + 1);
-
         int ans = 0;
-        for (int j = 1; j <= col_size; ++j) {
-            for (int i = 1; i <= row_size; ++i) {
-                last[i][j] = matrix[i - 1][j - 1] == '1' ? (last[i][j - 1] + 1) : 0;
-                int min_last = last[i][j];
-                for (int k = i; k >= 1; --k) {
-                    min_last = min(min_last, last[k][j]);
-                    ans = max(ans, min_last * (i - k + 1));
-                }
+        vector<int> last;
+        last.resize(col_size);
+
+        for (int i = 0; i < row_size; ++i) {
+            for (int j = 0; j < col_size; ++j) {
+                last[j] = matrix[i][j] == '1' ? (last[j] + 1) : 0;
             }
+            ans = max(ans, largestRectangleArea(last));
         }
 
         return ans;
