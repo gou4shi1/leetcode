@@ -36,6 +36,12 @@
  * };
  */
 //#include "header.h"
+// pair
+typedef pair<int, int> PII;
+#define mp make_pair
+#define fi first
+#define se second
+
 class Solution {
     vector<int> ans;
 
@@ -47,9 +53,29 @@ class Solution {
         dfs(p->right);
     }
 
+    void nonDFS(TreeNode* p) {
+        stack<pair<TreeNode*, int>> s;
+        s.push(mp(p, 0));
+
+        while (!s.empty()) {
+            pair<TreeNode*, int> t = s.top();
+            s.pop();
+            if (!t.fi)
+                continue;
+
+            if (t.se == 0) {
+                s.push(mp(t.fi, 1));
+                s.push(mp(t.fi->left, 0));
+            } else if (t.se == 1) {
+                ans.push_back(t.fi->val);
+                s.push(mp(t.fi->right, 0));
+            }
+        }
+    }
+
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        dfs(root);
+        nonDFS(root);
         return ans;
     }
 };
