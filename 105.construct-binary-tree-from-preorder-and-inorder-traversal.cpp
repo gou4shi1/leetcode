@@ -42,9 +42,11 @@
 //#include "header.h"
 
 class Solution {
-    map<int, vector<int>::iterator> in_map;
+    typedef vector<int>::iterator IT;
 
-    TreeNode* build(vector<int>::iterator pre_beg, vector<int>::iterator pre_end, vector<int>::iterator in_beg, vector<int>::iterator in_end) {
+    map<int, IT> in_map;
+
+    TreeNode* build(IT pre_beg, IT pre_end, IT in_beg, IT in_end) {
         if (pre_beg == pre_end)
             return nullptr;
 
