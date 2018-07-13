@@ -29,17 +29,13 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        if (!head || !head->next)
-            return false;
-
-        ListNode *p = head->next;
-        while (p != head) {
-            ListNode *t = p->next;
-            if (!t)
-                return false;
-            p->next = head;
-            p = t;
+        ListNode *sp = head, *fp = head;
+        while (fp && fp->next) {
+            sp = sp->next;
+            fp = fp->next->next;
+            if (sp == fp)
+                return true;
         }
-        return true;
+        return false;
     }
 };
