@@ -61,7 +61,7 @@ typedef pair<int, int> PII;
 #define se second
 
 class Solution {
-    const int _INF = 0x80808080;
+    const int _INF = 0xC0000000;
 
     PII dfs(TreeNode *p) {
         if (!p)
