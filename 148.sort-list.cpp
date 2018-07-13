@@ -109,11 +109,11 @@ public:
             return head;
 
         return mergeSort(head);
-
+        /* sortSort
         ListNode *tail = head;
         while (tail->next)
             tail = tail->next;
         quickSort(head, tail);
-        return head;
+        return head;*/
     }
 };
