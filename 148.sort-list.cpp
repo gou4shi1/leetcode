@@ -43,7 +43,7 @@ class Solution {
         int pivot = head->val;
 
         ListNode *p = head, *pre_p = nullptr, *q = head->next;
-        while (q) {
+        while (q != tail->next) {
             if (q->val < pivot) {
                 swap(p->val, q->val);
                 pre_p = p;
