@@ -53,13 +53,13 @@ public:
             pro *= 10;
         }
 
-        long long m = n / len;
+        int m = n / len;
         if (n % len == 0)
             --m;
         n -= len * m;
 
-        long long num = pro + m;
-        long long t = len - n;
+        int num = pro + m;
+        int t = len - n;
         while (t--)
             num /= 10;
         return num % 10;
