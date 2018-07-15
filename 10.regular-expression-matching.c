@@ -76,8 +76,8 @@ bool isMatch(char* s, char* p) {
             memcpy(f[i + 2], f[i], sizeof(f[0]));
             for (int j = 0; j < s_len; ++j) {
                 if ((p[i] == s[j] || p[i] == '.') && f[i][j]) {
-                    f[i][j + 1] |= true;
-                    f[i + 2][j + 1] |= true;
+                    f[i][j + 1] = true;
+                    f[i + 2][j + 1] = true;
                 }
             }
             ++i;
