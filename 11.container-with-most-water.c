@@ -18,31 +18,19 @@
  * Note: You may not slant the container and n is at least 2.
  * 
  */
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
-int work(int *height, int heightSize) {
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+
+int maxArea(int* height, int heightSize) {
     int ret = 0;
-    for (int i = 1; i < heightSize; ++i) {
-        for (int j = 0; j < i; ++j) {
-            if (height[j] >= height[i]) {
-                ret = MAX(ret, (i - j) * height[i]);
-                break;
-            }
-        }
+    int l = 0, r = heightSize - 1;
+    while (l < r) {
+        ret = max(ret, (r - l) * min(height[l], height[r]));
+        if (height[l] < height[r])
+            ++l;
+        else
+            --r;
     }
     return ret;
 }
-
-int maxArea(int* height, int heightSize) {
-    int height_rev[heightSize];
-    for (int i = 0; i < heightSize; ++i)
-        height_rev[heightSize - i - 1] = height[i];
-    return MAX(work(height, heightSize), work(height_rev, heightSize));
-}
-/*
-int main() {
-    int arr[] = {2,3,10,5,7,8,9};
-    printf("%d\n", maxArea(arr, 7));
-    return 0;
-}
-*/
