@@ -31,17 +31,13 @@ public:
         std::unordered_map<int, int> m;
         int n = nums.size();
         for (int i = 0; i != n; ++i) {
-            m[nums[i]] = i;
-        }
-        for (int i = 0; i != n; ++i) {
             if (m.count(target-nums[i]) != 0) {
-                if (i == m[target-nums[i]])
-                    continue;
                 vector<int> v;
                 v.push_back(i);
                 v.push_back(m[target-nums[i]]);
                 return v;
             }
+            m[nums[i]] = i;
         }
     }
 };
