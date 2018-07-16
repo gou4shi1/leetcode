@@ -42,8 +42,20 @@ class Solution {
         return recRevList(p, head);
     }
 
+    ListNode* recRevList_v1(ListNode *head) {
+        if (!head || !head->next)
+            return head;
+
+        ListNode *p = head->next;
+        head->next = nullptr;
+        ListNode *q = recRevList_v1(p);
+        p->next = head;
+        return q;
+    }
+
 public:
     ListNode* reverseList(ListNode* head) {
-        return recRevList(head, nullptr);
+        //return recRevList(head, nullptr);
+        return recRevList_v1(head);
     }
 };
