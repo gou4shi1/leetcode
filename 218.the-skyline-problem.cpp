@@ -68,11 +68,11 @@ public:
             lines.push_back({building[1], building[2], 0});
         }
         sort(lines.begin(), lines.end(), [] (const Line &lhs, const Line &rhs) {
-                return lhs.x != rhs.x ? lhs.x < rhs.x : lhs.y < rhs.y;
+                return lhs.x < rhs.x;
                 });
 
         vector<pair<int, int>> ret;
-        multiset<int> heights;
+        multiset<int> heights = {0};
         int last = 0;
         for (int i = 0; i < (int)lines.size(); ) {
             int x = lines[i].x;
@@ -84,7 +84,7 @@ public:
                 ++i;
             }
 
-            int highest = heights.empty() ? 0 : *heights.rbegin();
+            int highest = *heights.rbegin();
             if (highest != last)
                 ret.emplace_back(x, highest);
             last = highest;
