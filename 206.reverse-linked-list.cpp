@@ -53,9 +53,22 @@ class Solution {
         return q;
     }
 
+    ListNode* iterRevList(ListNode *head) {
+        ListNode *pre = nullptr, *curr = head;
+        while (curr) {
+            ListNode *nxt = curr->next;
+            curr->next = pre;
+            pre = curr;
+            curr = nxt;
+        }
+
+        return pre;
+    }
+
 public:
     ListNode* reverseList(ListNode* head) {
         //return recRevList(head, nullptr);
-        return recRevList_v1(head);
+        //return recRevList_v1(head);
+        return iterRevList(head);
     }
 };
