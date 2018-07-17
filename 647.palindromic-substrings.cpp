@@ -41,33 +41,37 @@
  * 
  * 
  */
-class Solution {
-    int ans = 0;
+//#include "header.h"
 
-    void add(vector<int> &v, int x) {
-        ++ans;
-        v.push_back(x);
+class Solution {
+    string conv(string &s) {
+        string str("$#");
+        for (char ch: s) {
+            str += ch;
+            str += '#';
+        }
+        return str;
     }
 
 public:
     int countSubstrings(string s) {
-        int len = s.length();
-        if (!len)
-            return 0;
-        
-        vector<int> pre;
-        add(pre, 0);
-        for (int i = 1; i < len; ++i) {
-            vector<int> curr;
-            add(curr, i);
-            if (s[i] == s[i - 1])
-                add(curr, i - 1);
-            for (int j: pre)
-                if (j > 0 && s[j - 1] == s[i])
-                    add(curr, j - 1);
-            pre = curr;
-        }
+        string str = conv(s);
 
+        int ans = 0;
+        vector<int> l(str.length() + 1);
+        int center = 0, right = 0;
+        for (int i = 1; i < (int)str.length(); ++i) {
+            l[i] = 1;
+            if (i < right)
+                l[i] = min(l[2 * center - i], right - i);
+            while (str[i - l[i]] == str[i + l[i]])
+                ++l[i];
+            if (i + l[i] > right) {
+                right = i + l[i];
+                center = i;
+            }
+            ans += l[i] / 2;
+        }
         return ans;
     }
 };
