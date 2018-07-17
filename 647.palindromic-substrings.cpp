@@ -42,29 +42,32 @@
  * 
  */
 class Solution {
+    int ans = 0;
+
+    void add(vector<int> &v, int x) {
+        ++ans;
+        v.push_back(x);
+    }
+
 public:
     int countSubstrings(string s) {
         int len = s.length();
         if (!len)
             return 0;
         
-        vector<int> pre(1, 0);
-        int ans = 1;
+        vector<int> pre;
+        add(pre, 0);
         for (int i = 1; i < len; ++i) {
-            vector<int> curr(1, i);
-            ++ans;
-            if (s[i] == s[i - 1]) {
-                curr.push_back(i - 1);
-                ++ans;
-            }
-            for (int j: pre) {
-                if (j > 0 && s[j - 1] == s[i]) {
-                    curr.push_back(j - 1);
-                    ++ans;
-                }
-            }
+            vector<int> curr;
+            add(curr, i);
+            if (s[i] == s[i - 1])
+                add(curr, i - 1);
+            for (int j: pre)
+                if (j > 0 && s[j - 1] == s[i])
+                    add(curr, j - 1);
             pre = curr;
         }
+
         return ans;
     }
 };
