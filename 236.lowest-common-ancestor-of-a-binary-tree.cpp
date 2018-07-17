@@ -65,23 +65,18 @@
 //#include "header.h"
 
 class Solution {
-    // if find both, return LCA
-    TreeNode* findOneOf(TreeNode *r, TreeNode *p, TreeNode *q) {
-        if (!r)
-            return nullptr;
-
-        if (r == p || r == q)
-            return r;
-
-        TreeNode *left = findOneOf(r->left, p, q);
-        TreeNode *right = findOneOf(r->right, p, q);
-        if (left && right)
-            return r;
-        return left ? left : right;
-    }
-
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        return findOneOf(root, p, q);
+        if (!root)
+            return nullptr;
+
+        if (root == p || root == q)
+            return root;
+
+        TreeNode *left = lowestCommonAncestor(root->left, p, q);
+        TreeNode *right = lowestCommonAncestor(root->right, p, q);
+        if (left && right)
+            return root;
+        return left ? left : right;
     }
 };
