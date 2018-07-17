@@ -40,11 +40,11 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        int sp = nums[nums[0]], fp = nums[nums[nums[0]]];
-        while (sp != fp) {
+        int sp = nums[0], fp = nums[0];
+        do {
             sp = nums[sp];
             fp = nums[nums[fp]];
-        }
+        } while (sp != fp);
 
         fp = nums[0];
         while (fp != sp) {
