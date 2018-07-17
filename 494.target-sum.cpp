@@ -56,6 +56,17 @@ class Solution {
 
 public:
     int findTargetSumWays(vector<int>& nums, int S) {
-        return dfs(nums, nums.begin(), 0, S);
+        map<int, int> pre;
+        pre[0] = 1;
+        for (int num: nums) {
+            map<int, int> curr;
+            for (auto p: pre) {
+                curr[p.first + num] += p.second;
+                curr[p.first - num] += p.second;
+            }
+            pre = curr;
+        }
+
+        return pre[S];
     }
 };
