@@ -35,15 +35,26 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        if (prices.empty())
+        if (prices.size() < 2)
             return 0;
 
-        vector<int> dp(prices.size()), pre_dp(prices.size());
+        vector<int> dp(prices.size()), pre_dp(prices.size()), _pre_dp(prices.size());
+        if (prices.size() > 2)
+            _pre_dp[0] = -prices[2];
         for (int i = 1; i < prices.size(); ++i) {
             dp[i] = prices[i] - prices[0];
-            for (int j = 1; j < i; ++j)
-                dp[i] = max(dp[i], ((j - 2 >= 0) ? pre_dp[j - 2] : 0) + prices[i] - prices[j]);
+            if (i >= 2)
+                dp[i] = max(dp[i], prices[i] - prices[1]);
+            /*
+            for (int j = 2; j < i; ++j)
+                dp[i] = max(dp[i], pre_dp[j - 2] + prices[i] - prices[j]);
+            */
+            if (i >= 3)
+                dp[i] = max(dp[i], _pre_dp[i - 3] + prices[i]);
             pre_dp[i] = max(pre_dp[i - 1], dp[i]);
+            _pre_dp[i] = _pre_dp[i - 1];
+            if (i + 2 < prices.size())
+                _pre_dp[i] = max(_pre_dp[i], pre_dp[i] - prices[i + 2]);
         }
         return pre_dp[prices.size() - 1];
     }
